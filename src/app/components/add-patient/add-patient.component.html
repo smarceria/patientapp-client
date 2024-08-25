@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <h1 class="mb-3">Add Patient</h1>
+  <p class="lead text-muted">Create new Patient record</p>
+  <div class="p-0 mb-3">
+    <div class="d-flex justify-content-between"></div>
+  </div>
+  <div>
+    <app-patient-editor
+      (submitted)="handleSubmitted($event)"
+      [hideSubmitButton]="saved"
+    ></app-patient-editor>
+
+    <div
+      id="__addPatientSuccessAlert"
+      class="alert alert-success"
+      role="alert"
+      *ngIf="saved"
+    >
+      <h4 class="alert-heading">Success!</h4>
+      <p>Patient record created.</p>
+      <p>
+        Click
+        <a
+          href="#"
+          class="alert-link"
+          routerLink="/patients/{{ createdPatientId }}"
+        >
+          this link
+        </a>
+        to edit the record or click
+        <a
+          href="#"
+          class="alert-link"
+          routerLink="/patients"
+        >
+          this link
+        </a>
+        to navigate back to Patients list
+      </p>
+    </div>
+  </div>
+  <div class="pb-5"></div>
+</div>

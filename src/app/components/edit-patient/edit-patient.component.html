@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <h1 class="mb-3">Edit Patient</h1>
+  <p class="lead text-muted">Update existing Patient record</p>
+  <div class="p-0 mb-3">
+    <div class="d-flex justify-content-between"></div>
+  </div>
+  <div>
+    <app-patient-editor
+      [patient]="editedPatient"
+      (submitted)="handleSubmitted($event)"
+    ></app-patient-editor>
+
+    <div
+      id="__editPatientSuccessAlert"
+      class="alert alert-success"
+      role="alert"
+      *ngIf="updated"
+    >
+      <h4 class="alert-heading">Success!</h4>
+      <p>Patient record updated.</p>
+      <p>
+        Click
+        <a href="#" class="alert-link" routerLink="/patients"> this link </a>
+        to go back to Patients list page.
+      </p>
+    </div>
+  </div>
+  <div class="pb-5"></div>
+</div>

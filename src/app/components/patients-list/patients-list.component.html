@@ -1,0 +1,153 @@
+<div class="container-fluid">
+  <h1 class="mb-3">Patients List</h1>
+  <div class="p-0 pt-3 pb-3 mb-3">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <div>Search by:</div>
+        <div>
+          <div class="flex-grow-0">
+            <select
+              id="ddSearchField"
+              class="form-select form-select-sm"
+              [(ngModel)]="filter.field"
+              (ngModelChange)="handleSearchFieldChanged()"
+            >
+              <option [ngValue]="''">Select field</option>
+              <option [ngValue]="'pid'">PID</option>
+              <option [ngValue]="'name'">Name</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <input
+              type="text"
+              [(ngModel)]="filter.text"
+              class="form-control"
+              (keyup.enter)="handleSearchTextChanged()"
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="handleClickAddPatient($event)"
+        >
+          Add Patient
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Pid</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Gender</th>
+          <th scope="col">DOB</th>
+          <th scope="col">Address</th>
+          <th scope="col">Phone</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of patients; track item.id) {
+        <tr>
+          <th scope="row">{{ item.id }}</th>
+          <td>{{ item.pid }}</td>
+          <td>{{ item.firstName }}</td>
+          <td>{{ item.lastName }}</td>
+          <td>{{ item.gender }}</td>
+          <td>{{ item.dateOfBirth | date : "fullDate" }}</td>
+          <td>{{ item.address | address }}</td>
+          <td>{{ item.phoneNo | phone }}</td>
+          <td>
+            <a
+              href="#"
+              class="btn btn-outline-primary btn-sm"
+              routerLink="/patients/{{ item.id }}"
+              title="Edit"
+            >
+              <i class="bi bi-pencil"></i>
+            </a>
+            <span class="d-inline-block ms-2"></span>
+            <a
+              href="#"
+              class="btn btn-outline-danger btn-sm"
+              title="Remove"
+              (click)="handleClickRemove($event, item)"
+            >
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
+        </tr>
+        }
+      </tbody>
+      <caption class="p-0">
+        <div class="d-flex px-2 py-2 align-items-center">
+          <div class="">
+            <span>{{ currentPage * pageSize + 1 }}</span>
+            <span>-</span>
+            <span>{{
+              currentPage * pageSize + pageSize > totalItems
+                ? totalItems
+                : currentPage * pageSize + pageSize
+            }}</span>
+            <span> of </span>
+            <span>{{ totalItems }}</span>
+          </div>
+          <div
+            class="d-flex ms-auto flex-shrink-0 align-items-center gap-3"
+            style=""
+          >
+            <div class="flex-grow-1 flex-shrink-1 block">Rows per page:</div>
+            <div class="flex-grow-0">
+              <select
+                id="pageSizeDropDownButton"
+                class="form-select form-select-sm"
+                [(ngModel)]="pageSize"
+                (ngModelChange)="handlePageSizeChanged($event)"
+              >
+                <option [ngValue]="5">5</option>
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
+                <option [ngValue]="100">100</option>
+              </select>
+            </div>
+            <div class="flex-grow-0">
+              <button
+                type="button"
+                class="btn btn-light btn-sm"
+                (click)="handleClickPreviousPage($event)"
+                [disabled]="currentPage === 0"
+              >
+                <i class="bi bi-chevron-left"></i>
+              </button>
+            </div>
+            <div class="flex-grow-0">
+              <strong>{{ currentPage + 1 }}</strong>
+              <span>/</span>
+              <span>{{ totalPages }}</span>
+            </div>
+            <div class="flex-grow-0">
+              <button
+                type="button"
+                class="btn btn-light btn-sm"
+                (click)="handleClickNextPage($event)"
+                [disabled]="currentPage === totalPages - 1"
+              >
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </caption>
+    </table>
+  </div>
+</div>
